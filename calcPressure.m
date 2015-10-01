@@ -1,4 +1,4 @@
-function [ p ] = calcPressure(rho, rho0, p0)
+function [ p ] = calcPressure(rho, rho0)
 %getPressure 
 %   Calculates the pressure of a specific particle
 %   p0 = pressure constant

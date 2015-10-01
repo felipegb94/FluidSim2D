@@ -4,6 +4,7 @@ function [Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho] = initParticleSystem(params)
 
 disp('Initializing Particle System');
 
+
 numParticles = params.numParticles;
 numParticlesPerRow = params.numParticlesPerRow;
 
@@ -14,8 +15,7 @@ boxHeight = params.boxHeight;
 numParticlesLowBound = (boxWidth/dr) + 7;
 
 numParticlesSideBound = (boxHeight / dr) + 1;
-%numParticlesSecondSideBound = (boxWidth/dr) + 1;
-%numParticlesThirdSideBound = (boxWidth/dr) + 1;
+
 
 numLowerBoundaryParticles = 3*numParticlesLowBound;
 numSideBoundaryParticles = 6*numParticlesSideBound;
@@ -24,18 +24,31 @@ totalNumParticles = numParticles + numLowerBoundaryParticles + numSideBoundaryPa
 
 Pos = zeros(2, totalNumParticles);
 Vel = zeros(2, totalNumParticles);
+
+
 VelHalf = zeros(2, totalNumParticles);
+
+
 Acc = zeros(2, totalNumParticles);
 Rho_RhoHalf_dRho = zeros(3, totalNumParticles);
-Rho_RhoHalf_dRho(1,:) = params.rho0;
+Rho_RhoHalf_dRho(1:2,:) = params.rho0;
 
 
 counter = 1;
+% counter = 1;
+% Pos(1,counter) = dr;
+% Pos(2,counter) = dr;
+% counter = counter + 1; 
+% 
+% Pos(1,counter) = 2*dr;
+% Pos(2,counter) = dr;
+% counter = counter + 1; 
+
 % Place Particles
 for x = dr: dr : dr*(numParticlesPerRow)  
     for y = dr: dr : dr*(numParticlesPerRow)
-        Pos(1,counter) = x;
-        Pos(2,counter) = y;
+        Pos(1,counter) = x + 4*dr;
+        Pos(2,counter) = y + 4*dr;
         counter = counter + 1; 
     end
 end

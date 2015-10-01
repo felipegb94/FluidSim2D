@@ -3,7 +3,7 @@ function [ w ] = W(q, h)
 %   Detailed explanation goes here
 
 % Ch Ensures normalization
-Ch = 15/(14*pi*h*h);
+Ch = 5/(14*pi*h*h);
 w = 0;
 if(1 <= q && q <= 2)
     w = Ch * ((2 - q)^3);
