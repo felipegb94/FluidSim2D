@@ -32,6 +32,8 @@ currStep = currStep + 1;
 [Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho] = step(Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho, params, 0.5);
 currStep = currStep + 1;
 
+t = tic;
+
 for i = currStep:5000
     fprintf(strcat('Curr Step = ', num2str(i), '\n'));
     [Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho] = step(Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho, params, 1);
@@ -40,6 +42,7 @@ for i = currStep:5000
     end
 end
 
+t = toc(t)
 
 
 

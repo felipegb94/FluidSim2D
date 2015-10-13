@@ -15,6 +15,9 @@ function [Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho] = step(Pos, Vel, VelHalf, Ac
     h2 = h*h;
     epsilon = params.epsilon;
     particleMass = params.particleMass;
+    
+
+    NL = GetNeighborList(Pos, params.h, params.boxWidth, params.boxHeight, params.numParticles);
    
 
     % Update velocity and rho at t using acceleration at t-dt and 
@@ -43,6 +46,7 @@ function [Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho] = step(Pos, Vel, VelHalf, Ac
     end
     Pressures(1, numParticles+1:totalNumParticles) = 1000;
     
+    %Loops through all of the fluid particles
     for i = 1:numParticles
         xAcc_i = 0; % Reset values for every particle
         yAcc_i = 0;
@@ -53,7 +57,15 @@ function [Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho] = step(Pos, Vel, VelHalf, Ac
         y_i = Pos(2,i);
         vx_i = Vel(1,i);
         vy_i = Vel(2,i); 
-        for j = 1:totalNumParticles
+        
+        Neighbor = NL{i,1};
+        [t, m] = size(Neighbor);
+        for k = 2:t
+        j = Neighbor(k);
+        
+        %Loops through all of the neighbors to the fluid
+%          for j = 1:totalNumParticles
+            
             x_j = Pos(1,j);
             y_j = Pos(2,j);
             dx = x_i - x_j;
@@ -61,7 +73,7 @@ function [Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho] = step(Pos, Vel, VelHalf, Ac
             r_ij = [dx; dy];
             norm_r_ij = norm(r_ij);
             q = norm_r_ij/h;
-            if ((i ~= j) && (q<=2) && (q>=0))
+%             if ((i ~= j) && (q<=2) && (q>=0))
                 
                 rho_j = Rho_RhoHalf_dRho(1,j);
                 p_j = Pressures(1, j);
@@ -90,7 +102,7 @@ function [Pos, Vel, VelHalf, Acc, Rho_RhoHalf_dRho] = step(Pos, Vel, VelHalf, Ac
         
                 drho_i = drho_i + (rho_i/rho_j)*particleMass*v_ij'*grad_a_wab;
 
-            end
+%             end
         end
         % Leap frog stuff: 
         % stepTerm = 0.5 for first step. Otherwise stepTerm==1. 
